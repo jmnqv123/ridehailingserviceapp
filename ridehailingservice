@@ -1,0 +1,138 @@
+if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+    mFusedLocationClient.getLastLocation()
+            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    // Got last known location. In some rare situations, this can be null.
+                    if (location != null) {
+                        // Logic to handle location object
+                    }
+                }
+            });
+}
+// Send a ride request to the server
+String pickupLocation = "123 Main St";
+String dropoffLocation = "456 Market St";
+
+JSONObject requestData = new JSONObject();
+requestData.put("pickup", pickupLocation);
+requestData.put("dropoff", dropoffLocation);
+
+JsonObjectRequest request = new JsonObjectRequest(
+        Request.Method.POST,
+        "https://your-server.com/api/request-ride",
+        requestData,
+        new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // Handle the server response
+                try {
+                    String driverName = response.getString("driver_name");
+                    String driverRating = response.getString("driver_rating");
+                    int estimatedTime = response.getInt("estimated_time");
+
+                    // Update the UI with the ride details
+                } catch (JSONException e) {
+                    // Handle error
+                }
+            }
+        },
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error
+            }
+        }
+);
+
+// Add the request to the RequestQueue
+requestQueue.add(request);
+
+// Send a payment request to the server
+String paymentMethod = "credit_card";
+int fare = 15;
+
+JSONObject requestData = new JSONObject();
+requestData.put("payment_method", paymentMethod);
+requestData.put("fare", fare);
+
+JsonObjectRequest request = new JsonObjectRequest(
+        Request.Method.POST,
+        "https://your-server.com/api/process-payment",
+        requestData,
+        new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // Handle the server response
+                try {
+                    boolean success = response.getBoolean("success");
+                    if (success) {
+                        // Payment was successful
+                        // Update the ride status and display a confirmation message
+                    } else {
+                        // Payment was not successful
+                        // Display an error message
+                    }
+                } catch (JSONException e) {
+                    // Handle error
+                }
+            }
+        },
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error
+            }
+        }
+);
+
+// Add the request to the RequestQueue
+requestQueue.add(request);
+
+// Send an update to the server to change the driver's availability status
+String driverId = "123";
+String availabilityStatus = "online";
+
+JSONObject requestData = new JSONObject();
+requestData.put("driver_id", driverId);
+requestData.put("availability_status", availabilityStatus);
+
+JsonObjectRequest request = new JsonObjectRequest(
+        Request.Method.POST,
+        "https://your-server.com/api/update-driver-status",
+        requestData,
+        new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // Handle the server response
+            }
+        },
+        new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error
+            }
+        }
+);
+
+// Add the request to the RequestQueue
+requestQueue.add(request);
+// Get the user's location and update the map
+if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) {
+    mFusedLocationClient.getLastLocation()
+            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    // Got last known location. In some rare situations, this can be null.
+                    if (location != null) {
+                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(latLng).title("Current location"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    }
+                }
+            });
+}
+
+
