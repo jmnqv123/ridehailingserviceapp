@@ -90,6 +90,7 @@ JsonObjectRequest request = new JsonObjectRequest(
 // Add the request to the RequestQueue
 requestQueue.add(request);
 
+
 // Send an update to the server to change the driver's availability status
 String driverId = "123";
 String availabilityStatus = "online";
